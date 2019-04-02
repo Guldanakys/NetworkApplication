@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mMenuItemLab = MenuItemLab.get();
         mMenuItems = mMenuItemLab.getMenuItemList();
-        mMenuItemAdapter = new MenuItemAdapter(mMenuItems);
+        mMenuItemAdapter = new MenuItemAdapter(getActivity(), mMenuItems);
         mRecyclerView.setAdapter(mMenuItemAdapter);
         return view;
     }

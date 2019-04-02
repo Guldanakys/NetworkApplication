@@ -1,10 +1,12 @@
 package com.example.networkapplication.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.networkapplication.R;
@@ -16,7 +18,10 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
 
     private List<MenuItem> mMenuItemList;
 
-    public MenuItemAdapter(List<MenuItem> menuItems) {
+    private Context mContext;
+
+    public MenuItemAdapter(Context context, List<MenuItem> menuItems) {
+        mContext = context;
         mMenuItemList = menuItems;
     }
 
@@ -42,17 +47,22 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
     class MenuItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mMenuItemTextName;
+        private ImageView mMenuItemImage;
         private MenuItem mMenuItem;
 
         public MenuItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mMenuItemTextName = itemView.findViewById(R.id.menu_item_name);
+            mMenuItemImage = itemView.findViewById(R.id.menu_item_image);
         }
 
         public void bind(MenuItem menuItem) {
             mMenuItem = menuItem;
             mMenuItemTextName.setText(mMenuItem.getName());
+            mMenuItemImage.setImageResource(mContext.getResources().getIdentifier(
+                    mMenuItem.getImage(), "drawable", mContext.getPackageName()
+            ));
         }
     }
 }
