@@ -3,5 +3,6 @@
     <string name="nav_notifications">Notifications</string>
     <string name="nav_home">Home</string>
     <string name="nav_profile">Profile</string>
-
+    <string name="login_button">Login</string>
+    <string name="login_registration">Don\'t have an account? Sign up!</string>
 </resources>

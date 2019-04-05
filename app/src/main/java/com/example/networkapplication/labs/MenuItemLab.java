@@ -1,6 +1,4 @@
-package com.example.networkapplication;
-
-import android.content.Context;
+package com.example.networkapplication.labs;
 
 import com.example.networkapplication.models.MenuItem;
 

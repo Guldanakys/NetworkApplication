@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.networkapplication.labs.DataLab;
 import com.example.networkapplication.models.User;
 
 public class ProfileFragment extends Fragment {
@@ -35,15 +36,14 @@ public class ProfileFragment extends Fragment {
         mFullName = (TextView) view.findViewById(R.id.user_full_name);
         mEmail = (TextView) view.findViewById(R.id.user_email);
 
-        mUser = new User(1, "IronMan", "Tony", "Stark",
-                "tony@gmail.com", "123hello", 23.8, 40);
-
         initUser();
 
         return view;
     }
 
     private void initUser() {
+        DataLab dataLab = DataLab.get();
+        mUser = dataLab.getUser(1);
         String progress = "Progress: " + String.valueOf(mUser.getProgress()) + "%";
         String fullName = mUser.getFirstName() + " " + mUser.getLastName();
         mNickName.setText(mUser.getNickName());

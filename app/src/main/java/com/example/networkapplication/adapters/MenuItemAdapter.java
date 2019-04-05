@@ -1,6 +1,7 @@
 package com.example.networkapplication.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.networkapplication.R;
+import com.example.networkapplication.chapters.ChapterListActivity;
 import com.example.networkapplication.models.MenuItem;
+import com.example.networkapplication.quiz.QuestionListActivity;
 
 import java.util.List;
 
@@ -44,7 +48,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
         return mMenuItemList.size();
     }
 
-    class MenuItemViewHolder extends RecyclerView.ViewHolder {
+    class MenuItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mMenuItemTextName;
         private ImageView mMenuItemImage;
@@ -53,6 +57,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
         public MenuItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            itemView.setOnClickListener(this);
             mMenuItemTextName = itemView.findViewById(R.id.menu_item_name);
             mMenuItemImage = itemView.findViewById(R.id.menu_item_image);
         }
@@ -63,6 +68,23 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
             mMenuItemImage.setImageResource(mContext.getResources().getIdentifier(
                     mMenuItem.getImage(), "drawable", mContext.getPackageName()
             ));
+        }
+
+        @Override
+        public void onClick(View v) {
+            final Intent intent;
+            switch (mMenuItem.getId()) {
+                case 1:
+                    intent = new Intent(mContext, ChapterListActivity.class);
+                    break;
+                case 2:
+                    intent = new Intent(mContext, QuestionListActivity.class);
+                    break;
+                default:
+                    intent = new Intent(mContext, ChapterListActivity.class);
+            }
+            mContext.startActivity(intent);
+
         }
     }
 }
