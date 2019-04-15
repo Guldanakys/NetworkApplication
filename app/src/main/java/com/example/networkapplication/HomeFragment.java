@@ -31,14 +31,17 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        initUI(view);
+        return view;
+    }
 
+    private void initUI(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.menu_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mMenuItemLab = MenuItemLab.get();
         mMenuItems = mMenuItemLab.getMenuItemList();
         mMenuItemAdapter = new MenuItemAdapter(getActivity(), mMenuItems);
         mRecyclerView.setAdapter(mMenuItemAdapter);
-        return view;
     }
 
 }

@@ -2,7 +2,7 @@ package com.example.networkapplication.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Chapter {
+public class Post {
 
     @SerializedName("id")
     private int mId;
@@ -13,20 +13,13 @@ public class Chapter {
     @SerializedName("body")
     private String mBody;
 
-    @SerializedName("imageUrl")
-    private String mImage;
-
-    private double mRating;
-
-    public Chapter() {
+    public Post() {
     }
 
-    public Chapter(int id, String title, String body, String image, double rating) {
+    public Post(int id, String title, String body) {
         mId = id;
         mTitle = title;
         mBody = body;
-        mImage = image;
-        mRating = rating;
     }
 
     public int getId() {
@@ -51,21 +44,5 @@ public class Chapter {
 
     public void setBody(String body) {
         mBody = body;
-    }
-
-    public String getImage() {
-        return mImage;
-    }
-
-    public void setImage(String image) {
-        mImage = image;
-    }
-
-    public double getRating() {
-        return mRating;
-    }
-
-    public void setRating(double rating) {
-        mRating = rating;
     }
 }

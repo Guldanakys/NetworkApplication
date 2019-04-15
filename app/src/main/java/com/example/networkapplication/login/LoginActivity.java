@@ -21,19 +21,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private EditText mUserPassword;
     private Button mUserLogin;
 
-    private SharedPreferences mSharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        mSharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-
-        if (mSharedPreferences.getBoolean("logged", false)) {
-            startMain(this);
-            finish();
-        }
 
         mUserEmail = (EditText) findViewById(R.id.user_login_email);
         mUserPassword = (EditText) findViewById(R.id.user_login_password);
@@ -45,8 +36,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             public void onClick(View v) {
                 mLoginPresenter.authorizeUser(mUserEmail.getText().toString(),
                         mUserPassword.getText().toString());
-                mSharedPreferences.edit().putBoolean("logged", true).apply();
-                finish();
             }
         });
     }
@@ -54,6 +43,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void loginSuccess() {
         startMain(this);
+        finish();
     }
 
     @Override

@@ -48,7 +48,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
         return mMenuItemList.size();
     }
 
-    class MenuItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MenuItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mMenuItemTextName;
         private ImageView mMenuItemImage;
