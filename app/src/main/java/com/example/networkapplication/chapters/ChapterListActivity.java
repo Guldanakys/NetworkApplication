@@ -67,7 +67,7 @@ public class ChapterListActivity extends AppCompatActivity implements ChapterVie
     }
 
     @Override
-    public void onItemClick(View view, int position, int id) {
+    public void onItemClick(int position, int id) {
         Intent intent = new Intent(this, ChapterDetailsActivity.class);
         intent.putExtra("chapterId", id);
         startActivity(intent);

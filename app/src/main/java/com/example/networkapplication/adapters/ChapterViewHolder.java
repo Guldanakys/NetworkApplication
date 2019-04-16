@@ -30,7 +30,7 @@ public class ChapterViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.onItemClick(v, getAdapterPosition(), mChapter.getId());
+                itemClickListener.onItemClick(getAdapterPosition(), mChapter.getId());
             }
         });
     }

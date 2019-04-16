@@ -75,7 +75,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
 
         @Override
         public void onClick(View v) {
-            mItemClickListener.onItemClick(v, mMenuItem.getId(), mMenuItem.getId());
+            mItemClickListener.onItemClick(getAdapterPosition(), mMenuItem.getId());
         }
     }
 }
