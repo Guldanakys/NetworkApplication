@@ -1,6 +1,7 @@
 package com.example.networkapplication.quizes;
 
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
     private List<Question> mQuestionList;
     private int mTotalCount = 0;
     private int mCorrectCount = 0;
+    private TextView mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         initUI();
         loadQuestions();
         updateQuestion();
+        reverseTimer(30);
     }
 
     private void initUI() {
@@ -44,6 +47,8 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         mOptionTwo = (Button) findViewById(R.id.option_two);
         mOptionThree = (Button) findViewById(R.id.option_three);
         mOptionFour = (Button) findViewById(R.id.option_four);
+        mTimer = (TextView) findViewById(R.id.timer);
+        mTimer.setText("00:00");
         mOptionOne.setOnClickListener(this);
         mOptionTwo.setOnClickListener(this);
         mOptionThree.setOnClickListener(this);
@@ -87,6 +92,26 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         mOptionTwo.setEnabled(false);
         mOptionThree.setEnabled(false);
         mOptionFour.setEnabled(false);
+    }
+
+    private void reverseTimer(int secondsGiven) {
+        new CountDownTimer(secondsGiven * 1000 + 1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int seconds = (int) (millisUntilFinished / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+                String currentTimer = String.format("%02d", minutes) + ":" + String.format("%02d", seconds);
+                mTimer.setText(currentTimer);
+            }
+
+            @Override
+            public void onFinish() {
+                mTimer.setText("Time is up!");
+            }
+        }.start();
+
     }
 
     @Override
