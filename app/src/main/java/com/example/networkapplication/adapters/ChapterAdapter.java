@@ -5,16 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
 import com.example.networkapplication.models.Chapter;
 
 import java.util.List;
 
-public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterHolder> {
+public class ChapterAdapter extends RecyclerView.Adapter<ChapterViewHolder> {
 
     private List<Chapter> mChapterList;
+
+    private OnItemClickListener mItemClickListener;
 
     public ChapterAdapter(List<Chapter> chapterList) {
         mChapterList = chapterList;
@@ -22,16 +24,16 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterH
 
     @NonNull
     @Override
-    public ChapterHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View view = layoutInflater.inflate(R.layout.chapter_list_item, viewGroup, false);
-        return new ChapterHolder(view);
+        return new ChapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChapterHolder chapterHolder, int i) {
+    public void onBindViewHolder(@NonNull ChapterViewHolder chapterViewHolder, int i) {
         Chapter chapter = mChapterList.get(i);
-        chapterHolder.bind(chapter);
+        chapterViewHolder.bind(chapter, i, mItemClickListener);
     }
 
     @Override
@@ -39,24 +41,8 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterH
         return mChapterList.size();
     }
 
-    public class ChapterHolder extends RecyclerView.ViewHolder {
-
-        private TextView mChapterNumber;
-        private TextView mChapterTitle;
-        private Chapter mChapter;
-
-        public ChapterHolder(@NonNull View itemView) {
-            super(itemView);
-
-            mChapterNumber = (TextView) itemView.findViewById(R.id.chapter_number);
-            mChapterTitle = (TextView) itemView.findViewById(R.id.chapter_title);
-        }
-
-        public void bind(Chapter chapter) {
-            mChapter = chapter;
-            String chapterNumber = "Chapter " + mChapter.getId();
-            mChapterNumber.setText(chapterNumber);
-            mChapterTitle.setText(mChapter.getTitle());
-        }
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
     }
+
 }

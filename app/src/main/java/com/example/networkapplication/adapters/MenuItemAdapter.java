@@ -1,7 +1,6 @@
 package com.example.networkapplication.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
-import com.example.networkapplication.chapters.ChapterListActivity;
 import com.example.networkapplication.models.MenuItem;
-import com.example.networkapplication.quiz.QuestionListActivity;
 
 import java.util.List;
 
@@ -23,6 +20,8 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
     private List<MenuItem> mMenuItemList;
 
     private Context mContext;
+
+    private OnItemClickListener mItemClickListener;
 
     public MenuItemAdapter(Context context, List<MenuItem> menuItems) {
         mContext = context;
@@ -46,6 +45,10 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
     @Override
     public int getItemCount() {
         return mMenuItemList.size();
+    }
+
+    public void setClickListener(OnItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
     }
 
     public class MenuItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -72,19 +75,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuIt
 
         @Override
         public void onClick(View v) {
-            final Intent intent;
-            switch (mMenuItem.getId()) {
-                case 1:
-                    intent = new Intent(mContext, ChapterListActivity.class);
-                    break;
-                case 2:
-                    intent = new Intent(mContext, QuestionListActivity.class);
-                    break;
-                default:
-                    intent = new Intent(mContext, ChapterListActivity.class);
-            }
-            mContext.startActivity(intent);
-
+            mItemClickListener.onItemClick(v, mMenuItem.getId(), mMenuItem.getId());
         }
     }
 }

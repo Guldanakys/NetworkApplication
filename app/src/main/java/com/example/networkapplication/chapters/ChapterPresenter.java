@@ -30,11 +30,6 @@ public class ChapterPresenter {
     }
 
     public void getChapters() {
-        /*mChapterList.add(new Chapter(1, "Course Introduction", "", "", 0.00));
-        mChapterList.add(new Chapter(2, "Explore the Network", "", "", 0.00));
-        mChapterList.add(new Chapter(3, "Network Protocols and Communications", "", "", 0.00));
-        mChapterList.add(new Chapter(4, "Network Access", "", "", 0.00));
-        mChapterList.add(new Chapter(5, "Ethernet", "", "", 0.00));*/
         mClientService.getApi().getChapters().enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
