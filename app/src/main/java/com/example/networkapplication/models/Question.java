@@ -4,7 +4,7 @@ public class Question {
 
     private int mId;
 
-    private String mQuestion;
+    private String mTitle;
 
     private String mOptionOne;
 
@@ -19,10 +19,10 @@ public class Question {
     public Question() {
     }
 
-    public Question(int id, String question, String optionOne, String optionTwo,
+    public Question(int id, String title, String optionOne, String optionTwo,
                     String optionThree, String optionFour, String answer) {
         mId = id;
-        mQuestion = question;
+        mTitle = title;
         mOptionOne = optionOne;
         mOptionTwo = optionTwo;
         mOptionThree = optionThree;
@@ -38,12 +38,12 @@ public class Question {
         mId = id;
     }
 
-    public String getQuestion() {
-        return mQuestion;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setQuestion(String question) {
-        mQuestion = question;
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     public String getOptionOne() {

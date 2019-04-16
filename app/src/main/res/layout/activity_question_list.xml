@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context=".quiz.QuestionListActivity">
+    tools:context=".quizes.QuestionListActivity">
 
     <TextView
-        android:id="@+id/txt_question"
+        android:id="@+id/question_title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
@@ -25,7 +25,7 @@
         android:rowCount="2">
 
         <Button
-            android:id="@+id/btn_option_one"
+            android:id="@+id/option_one"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -38,7 +38,7 @@
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/btn_option_two"
+            android:id="@+id/option_two"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -52,7 +52,7 @@
 
 
         <Button
-            android:id="@+id/btn_option_three"
+            android:id="@+id/option_three"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -65,7 +65,7 @@
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/btn_option_four"
+            android:id="@+id/option_four"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -76,6 +76,5 @@
             android:textStyle="bold"
             android:background="@color/colorPrimary"
             android:textColor="@android:color/white" />
-
     </GridLayout>
 </LinearLayout>

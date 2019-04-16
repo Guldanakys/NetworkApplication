@@ -14,7 +14,8 @@ import com.example.networkapplication.adapters.MenuItemAdapter;
 import com.example.networkapplication.chapters.ChapterListActivity;
 import com.example.networkapplication.labs.MenuItemLab;
 import com.example.networkapplication.models.MenuItem;
-import com.example.networkapplication.quiz.QuestionListActivity;
+import com.example.networkapplication.quizes.QuestionListActivity;
+import com.example.networkapplication.quizes.QuizListActivity;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
                 intent = new Intent(getActivity(), ChapterListActivity.class);
                 break;
             default:
-                intent = new Intent(getActivity(), QuestionListActivity.class);
+                intent = new Intent(getActivity(), QuizListActivity.class);
         }
         startActivity(intent);
     }

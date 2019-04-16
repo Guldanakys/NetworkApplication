@@ -11,10 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".chapters.details.ChapterDetailsActivity"
+        <activity
+            android:name=".quizes.QuizListActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".chapters.details.ChapterDetailsActivity"
             android:parentActivityName=".chapters.ChapterListActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".quiz.QuestionListActivity" />
+        <activity android:name=".quizes.QuestionListActivity" />
         <activity
             android:name=".chapters.ChapterListActivity"
             android:parentActivityName=".MainActivity" />
