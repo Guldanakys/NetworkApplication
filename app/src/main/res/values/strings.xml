@@ -3,6 +3,14 @@
     <string name="nav_notifications">Notifications</string>
     <string name="nav_home">Home</string>
     <string name="nav_profile">Profile</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
     <string name="login_button">Login</string>
     <string name="login_registration">Don\'t have an account? Sign up!</string>
+    <string name="register_title">Registration</string>
+    <string name="register_nickname">Nickname</string>
+    <string name="register_first_name">First Name</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_button">Register</string>
+    <string name="chapter_rate">Rate</string>
 </resources>

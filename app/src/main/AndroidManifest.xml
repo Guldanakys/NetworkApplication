@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".videos.VideoActivity"
+        <activity android:name=".register.RegisterActivity"></activity>
+        <activity
+            android:name=".videos.VideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".quizes.QuizListActivity"
@@ -19,12 +21,14 @@
         <activity
             android:name=".chapters.details.ChapterDetailsActivity"
             android:parentActivityName=".chapters.ChapterListActivity" />
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".quizes.QuestionListActivity" />
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".quizes.QuestionListActivity"
+            android:parentActivityName=".quizes.QuizListActivity" />
         <activity
             android:name=".chapters.ChapterListActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -24,7 +24,7 @@ public class DataLab {
         mUserList = new ArrayList<>();
         mQuestionList = new ArrayList<>();
         mUserList.add(new User(1, "IronMan", "Tony", "Stark",
-                "tony@gmail.com", "123hello", 23.8, 40));
+                "tony@gmail.com", "123hello", "123hello"));
         mQuestionList.add(new Question(1, "One MB is equal to?",
                 "1024 Byte", "1024 KB", "1000 KB",
                 "1024 GB", "1024 KB"));

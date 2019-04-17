@@ -1,18 +1,29 @@
 package com.example.networkapplication.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
+    @SerializedName("id")
     private int mId;
 
+    @SerializedName("nickName")
     private String mNickName;
 
+    @SerializedName("firstName")
     private String mFirstName;
 
+    @SerializedName("lastName")
     private String mLastName;
 
+    @SerializedName("email")
     private String mEmail;
 
+    @SerializedName("password")
     private String mPassword;
+
+    @SerializedName("passwordConfirmation")
+    private String mPasswordConfirmation;
 
     private double mProgress;
 
@@ -22,15 +33,14 @@ public class User {
     }
 
     public User(int id, String nickName, String firstName, String lastName, String email,
-                String password, double progress, double rating) {
+                String password, String passwordConfirmation) {
         mId = id;
         mNickName = nickName;
         mFirstName = firstName;
         mLastName = lastName;
         mEmail = email;
         mPassword = password;
-        mProgress = progress;
-        mRating = rating;
+        mPasswordConfirmation = passwordConfirmation;
     }
 
     public int getId() {
@@ -79,6 +89,14 @@ public class User {
 
     public void setPassword(String password) {
         mPassword = password;
+    }
+
+    public String getPasswordConfirmation() {
+        return mPasswordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        mPasswordConfirmation = passwordConfirmation;
     }
 
     public double getProgress() {

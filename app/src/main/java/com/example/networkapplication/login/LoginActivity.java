@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.networkapplication.MainActivity;
 import com.example.networkapplication.R;
+import com.example.networkapplication.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
@@ -20,6 +22,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private EditText mUserEmail;
     private EditText mUserPassword;
     private Button mUserLogin;
+    private TextView mSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         mUserEmail = (EditText) findViewById(R.id.user_login_email);
         mUserPassword = (EditText) findViewById(R.id.user_login_password);
         mUserLogin = (Button) findViewById(R.id.user_login_button);
+        mSignUp = (TextView) findViewById(R.id.user_login_registration);
 
         mLoginPresenter = new LoginPresenter(this);
         mUserLogin.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +40,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             public void onClick(View v) {
                 mLoginPresenter.authorizeUser(mUserEmail.getText().toString(),
                         mUserPassword.getText().toString());
+            }
+        });
+
+        mSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(i);
             }
         });
     }
