@@ -29,7 +29,11 @@ public class RegisterPresenter {
         mClientService.getApi().registerUser(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                User u = response.body();
+                if (response.isSuccessful()) {
+                    User u = response.body();
+                } else {
+                    Log.d(TAG, response.errorBody().toString());
+                }
                 mRegisterView.registerSuccess();
             }
 

@@ -1,34 +1,48 @@
 package com.example.networkapplication.login;
 
-import com.example.networkapplication.labs.DataLab;
-import com.example.networkapplication.models.User;
+import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.networkapplication.models.User;
+import com.example.networkapplication.service.ClientService;
+import com.example.networkapplication.models.MyResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginPresenter {
 
+    private static final String TAG = "LoginPresenter";
+
     private LoginView mLoginView;
 
-    private List<User> mUserList;
-    private User mUser;
+    private ClientService mClientService;
+
+    private MyResponse mResponse;
 
     public LoginPresenter(LoginView loginView) {
         mLoginView = loginView;
-        mUserList = new ArrayList<>();
+
+        if (mClientService == null) {
+            mClientService = new ClientService();
+        }
+
     }
 
-    public void authorizeUser(String email, String password) {
-        mUserList = DataLab.get().getUserList();
-        for (User user : mUserList) {
-            if (user.getEmail().equals(email) &&
-                user.getPassword().equals(password)) {
-                mUser = user;
+    public void authorizeUser(User user) {
+        mClientService.getApi().logUser(user).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.isSuccessful()) {
+                    mResponse = response.body();
+                }
+                mLoginView.loginSuccess(mResponse.getToken());
             }
-        }
-        if (mUser != null)
-            mLoginView.loginSuccess();
-        else
-            mLoginView.loginError();
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
+            }
+        });
     }
 }

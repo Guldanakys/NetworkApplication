@@ -67,4 +67,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     public void registerError() {
         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public boolean onNavigateUp() {
+        finish();
+        return true;
+    }
 }

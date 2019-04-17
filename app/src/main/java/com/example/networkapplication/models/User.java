@@ -32,6 +32,11 @@ public class User {
     public User() {
     }
 
+    public User(String email, String password) {
+        mEmail = email;
+        mPassword = password;
+    }
+
     public User(int id, String nickName, String firstName, String lastName, String email,
                 String password, String passwordConfirmation) {
         mId = id;

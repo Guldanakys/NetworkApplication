@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.networkapplication.models.Chapter;
 import com.example.networkapplication.service.ClientService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,7 +20,7 @@ public class ChapterPresenter {
 
     private ClientService mClientService;
 
-    private List<Chapter> mChapterList;
+    private List<Chapter> mChapterList = new ArrayList<>();
 
     public ChapterPresenter(ChapterView chapterView) {
         mChapterView = chapterView;

@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".register.RegisterActivity"></activity>
+        <activity android:name=".register.RegisterActivity"
+            android:parentActivityName=".login.LoginActivity"/>
         <activity
             android:name=".videos.VideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />

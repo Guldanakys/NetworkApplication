@@ -2,7 +2,7 @@ package com.example.networkapplication.login;
 
 public interface LoginView {
 
-    void loginSuccess();
+    void loginSuccess(String token);
 
     void loginError();
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.networkapplication.MainActivity;
 import com.example.networkapplication.R;
+import com.example.networkapplication.models.User;
 import com.example.networkapplication.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
@@ -38,8 +39,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         mUserLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLoginPresenter.authorizeUser(mUserEmail.getText().toString(),
-                        mUserPassword.getText().toString());
+                mLoginPresenter.authorizeUser(new User("dana@gmail.com", "123!@#qweQWE"));
             }
         });
 
@@ -53,8 +53,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void loginSuccess() {
-        startMain(this);
+    public void loginSuccess(String token) {
+        Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -63,8 +65,4 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
     }
 
-    public static void startMain(Context context) {
-        Intent starter = new Intent(context, MainActivity.class);
-        context.startActivity(starter);
-    }
 }

@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.networkapplication.adapters.MenuItemAdapter;
 import com.example.networkapplication.chapters.ChapterListActivity;
-import com.example.networkapplication.labs.MenuItemLab;
 import com.example.networkapplication.models.MenuItem;
-import com.example.networkapplication.quizes.QuestionListActivity;
 import com.example.networkapplication.quizes.QuizListActivity;
 import com.example.networkapplication.videos.VideoActivity;
 

@@ -1,4 +1,4 @@
-package com.example.networkapplication.labs;
+package com.example.networkapplication;
 
 import com.example.networkapplication.models.MenuItem;
 
@@ -29,5 +29,4 @@ public class MenuItemLab {
     public List<MenuItem> getMenuItemList() {
         return mMenuItemList;
     }
-
 }
