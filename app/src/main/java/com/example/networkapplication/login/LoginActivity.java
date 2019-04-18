@@ -2,7 +2,6 @@ package com.example.networkapplication.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.networkapplication.MainActivity;
 import com.example.networkapplication.R;
+import com.example.networkapplication.session.SaveSharedPreference;
 import com.example.networkapplication.models.User;
 import com.example.networkapplication.register.RegisterActivity;
 
@@ -30,39 +30,65 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mLoginPresenter = new LoginPresenter(this);
+
+        initUI();
+
+        checkSession();
+    }
+
+    private void initUI() {
         mUserEmail = (EditText) findViewById(R.id.user_login_email);
         mUserPassword = (EditText) findViewById(R.id.user_login_password);
         mUserLogin = (Button) findViewById(R.id.user_login_button);
         mSignUp = (TextView) findViewById(R.id.user_login_registration);
-
-        mLoginPresenter = new LoginPresenter(this);
-        mUserLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLoginPresenter.authorizeUser(new User("dana@gmail.com", "123!@#qweQWE"));
-            }
-        });
-
-        mSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(i);
-            }
-        });
+        mUserLogin.setOnClickListener(loginClickListener);
+        mSignUp.setOnClickListener(signUpClickListener);
     }
+
+    private void checkSession() {
+        if (SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
+            startMain(this);
+            finish();
+        }
+    }
+
+    View.OnClickListener signUpClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startRegister(LoginActivity.this);
+        }
+    };
+
+    View.OnClickListener loginClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mLoginPresenter.authorizeUser(new User("gulkys@outlook.com", "123!@#qweQWE"));
+        }
+    };
 
     @Override
     public void loginSuccess(String token) {
         Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
+        SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
+        SaveSharedPreference.setUserToken(getApplicationContext(), token);
+        startMain(this);
         finish();
     }
 
     @Override
     public void loginError() {
         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+    }
+
+    public static void startMain(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        context.startActivity(starter);
+    }
+
+    public static void startRegister(Context context) {
+        Intent starter = new Intent(context, RegisterActivity.class);
+        context.startActivity(starter);
     }
 
 }
