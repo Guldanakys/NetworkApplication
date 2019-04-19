@@ -3,4 +3,5 @@
     <color name="colorPrimary">#36454F</color>
     <color name="colorPrimaryDark">#051923</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="videoTint">#83000000</color>
 </resources>

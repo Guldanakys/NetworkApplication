@@ -31,7 +31,7 @@ public class ChapterViewHolder extends RecyclerView.ViewHolder {
         String chapterNumber = "Chapter " + i;
         mChapterNumber.setText(chapterNumber);
         mChapterTitle.setText(mChapter.getTitle());
-        Glide.with(context).load(chapter.getImage()).into(mChapterImage);;
+        Glide.with(context).load(chapter.getImage()).into(mChapterImage);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

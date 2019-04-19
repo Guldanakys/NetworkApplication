@@ -20,7 +20,7 @@ public class ChapterPresenter {
 
     private ClientService mClientService;
 
-    private List<Chapter> mChapterList = new ArrayList<>();
+    private List<Chapter> mChapterList;// = new ArrayList<>();
 
     public ChapterPresenter(ChapterView chapterView) {
         mChapterView = chapterView;
@@ -31,6 +31,7 @@ public class ChapterPresenter {
     }
 
     public void getChapters() {
+        mChapterList = new ArrayList<>();
         mClientService.getApi().getChapters().enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {

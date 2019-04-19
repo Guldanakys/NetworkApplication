@@ -15,6 +15,7 @@ import com.example.networkapplication.chapters.ChapterListActivity;
 import com.example.networkapplication.models.MenuItem;
 import com.example.networkapplication.quizes.QuizListActivity;
 import com.example.networkapplication.videos.VideoActivity;
+import com.example.networkapplication.videos.VideoListActivity;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
                 intent = new Intent(getActivity(), ChapterListActivity.class);
                 break;
             case 2:
-                intent = new Intent(getActivity(), VideoActivity.class);
+                intent = new Intent(getActivity(), VideoListActivity.class);
                 break;
             default:
                 intent = new Intent(getActivity(), QuizListActivity.class);
