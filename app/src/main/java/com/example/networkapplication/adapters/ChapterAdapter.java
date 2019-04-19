@@ -1,5 +1,6 @@
 package com.example.networkapplication.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,10 +17,13 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterViewHolder> {
 
     private List<Chapter> mChapterList;
 
+    private Context mContext;
+
     private OnItemClickListener mItemClickListener;
 
-    public ChapterAdapter(List<Chapter> chapterList) {
+    public ChapterAdapter(List<Chapter> chapterList, Context context) {
         mChapterList = chapterList;
+        mContext = context;
     }
 
     @NonNull
@@ -33,7 +37,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder chapterViewHolder, int i) {
         Chapter chapter = mChapterList.get(i);
-        chapterViewHolder.bind(chapter, i, mItemClickListener);
+        chapterViewHolder.bind(chapter, i+1, mItemClickListener, mContext);
     }
 
     @Override

@@ -44,7 +44,7 @@ public class ChapterListActivity extends AppCompatActivity implements ChapterVie
        mRecyclerView = (RecyclerView) findViewById(R.id.chapter_recycler);
        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
        mChapterList = new ArrayList<>();
-       mChapterAdapter = new ChapterAdapter(mChapterList);
+       mChapterAdapter = new ChapterAdapter(mChapterList, this);
        mChapterAdapter.setItemClickListener(this);
        mRecyclerView.setAdapter(mChapterAdapter);
    }

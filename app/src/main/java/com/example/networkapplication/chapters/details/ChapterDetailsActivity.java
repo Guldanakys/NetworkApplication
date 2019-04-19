@@ -2,6 +2,7 @@ package com.example.networkapplication.chapters.details;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -56,7 +57,7 @@ public class ChapterDetailsActivity extends AppCompatActivity implements Chapter
 
     @Override
     public void showChapter(Chapter chapter) {
-        mChapterBody.setText(chapter.getBody());
+        mChapterBody.setText(Html.fromHtml(chapter.getBody()));
         Glide.with(this).load(chapter.getImage()).into(mChapterImage);
         hideProgress();
     }
