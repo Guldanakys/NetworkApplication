@@ -41,7 +41,24 @@ public class LoginPresenter {
 
             @Override
             public void onFailure(Call<MyResponse> call, Throwable t) {
+                Log.d(TAG, "Error connection");
+            }
+        });
+    }
 
+    public void authUser(String email, String password) {
+        mClientService.getApi().loginUser(email, password).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.isSuccessful()) {
+                    mResponse = response.body();
+                }
+                mLoginView.loginSuccess(mResponse.getToken());
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+                Log.d(TAG, "Error connection");
             }
         });
     }

@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         @Override
         public void onClick(View v) {
             mLoginPresenter.authorizeUser(new User("gulkys@outlook.com", "123!@#qweQWE"));
+            //mLoginPresenter.authUser("gulkys@outlook.com", "123!@#qweQWE");
         }
     };
 

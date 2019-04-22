@@ -13,29 +13,31 @@ import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
 import com.example.networkapplication.models.Video;
 
-public class VideoViewHolder extends RecyclerView.ViewHolder {
+public class VideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     private TextView mVideoTitle;
     private ImageView mVideoImage;
     private Video mVideo;
+    private OnItemClickListener mItemClickListener;
 
     public VideoViewHolder(@NonNull View itemView) {
         super(itemView);
 
         mVideoTitle = (TextView) itemView.findViewById(R.id.video_title);
         mVideoImage = (ImageView) itemView.findViewById(R.id.video_image);
+
+        itemView.setOnClickListener(this);
     }
 
     public void bind(Video video, final OnItemClickListener itemClickListener, Context context) {
         mVideo = video;
         mVideoTitle.setText(mVideo.getTitle());
         Glide.with(context).load(mVideo.getImage()).into(mVideoImage);
+        mItemClickListener = itemClickListener;
+    }
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(getAdapterPosition(), mVideo.getId());
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        mItemClickListener.onItemClick(getAdapterPosition(), mVideo.getId());
     }
 }
