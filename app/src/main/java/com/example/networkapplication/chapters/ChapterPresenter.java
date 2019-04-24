@@ -20,7 +20,7 @@ public class ChapterPresenter {
 
     private ClientService mClientService;
 
-    private List<Chapter> mChapterList;// = new ArrayList<>();
+    private List<Chapter> mChapterList;
 
     public ChapterPresenter(ChapterView chapterView) {
         mChapterView = chapterView;

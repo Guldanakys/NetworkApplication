@@ -1,13 +1,19 @@
 package com.example.networkapplication.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Video {
 
+    @SerializedName("id")
     private int mId;
 
+    @SerializedName("title")
     private String mTitle;
 
+    @SerializedName("imageUrl")
     private String mImage;
 
+    @SerializedName("videoUrl")
     private String mUrl;
 
     public Video() {

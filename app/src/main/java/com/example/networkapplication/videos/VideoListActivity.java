@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
@@ -50,7 +51,7 @@ public class VideoListActivity extends AppCompatActivity implements VideoView, O
 
     @Override
     public void showError() {
-
+        Toast.makeText(this, "Network failure", Toast.LENGTH_SHORT).show();
     }
 
     @Override

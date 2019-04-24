@@ -4,8 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ public class ChapterDetailsActivity extends AppCompatActivity implements Chapter
 
     private ImageView mChapterImage;
     private TextView mChapterBody;
+    private Button mChapterRate;
 
     private ProgressBar mProgressBar;
     private ScrollView mScrollView;
@@ -41,8 +44,10 @@ public class ChapterDetailsActivity extends AppCompatActivity implements Chapter
     private void initUI() {
         mChapterBody = (TextView) findViewById(R.id.chapter_body);
         mChapterImage = (ImageView) findViewById(R.id.chapter_image);
+        mChapterRate = (Button) findViewById(R.id.chapter_rate);
         mProgressBar = (ProgressBar) findViewById(R.id.chapter_progress);
         mScrollView = (ScrollView) findViewById(R.id.chapter_scroll);
+        mChapterRate.setOnClickListener(rateListener);
         showProgress();
     }
 
@@ -54,6 +59,18 @@ public class ChapterDetailsActivity extends AppCompatActivity implements Chapter
         mProgressBar.setVisibility(View.GONE);
         mScrollView.setVisibility(View.VISIBLE);
     }
+
+    private void openRateDialog() {
+        RatingDialog ratingDialog = new RatingDialog();
+        ratingDialog.show(getSupportFragmentManager(), "rate dialog");
+    }
+
+    View.OnClickListener rateListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            openRateDialog();
+        }
+    };
 
     @Override
     public void showChapter(Chapter chapter) {

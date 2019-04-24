@@ -3,6 +3,7 @@ package com.example.networkapplication.service;
 import com.example.networkapplication.models.Chapter;
 import com.example.networkapplication.models.MyResponse;
 import com.example.networkapplication.models.User;
+import com.example.networkapplication.models.Video;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public interface ClientApi {
     @GET("/api/chapters/{id}")
     Call<Chapter> getChapter(@Path("id") int id);
 
+    @GET("/api/videos")
+    Call<List<Video>> getVideos();
+
     @POST("/api/users/register")
     Call<User> registerUser(@Body User user);
 
@@ -32,4 +36,7 @@ public interface ClientApi {
 
     @POST("/api/users/login")
     Call<MyResponse> logUser(@Body User user);
+
+    @GET("/api/users/get-profile/{id}")
+    Call<User> getUser(@Path("id") int id);
 }
