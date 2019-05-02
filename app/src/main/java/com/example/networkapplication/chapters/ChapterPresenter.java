@@ -18,21 +18,15 @@ public class ChapterPresenter {
 
     private ChapterView mChapterView;
 
-    private ClientService mClientService;
-
     private List<Chapter> mChapterList;
 
     public ChapterPresenter(ChapterView chapterView) {
         mChapterView = chapterView;
-
-        if (mClientService == null) {
-            mClientService = new ClientService();
-        }
     }
 
     public void getChapters() {
         mChapterList = new ArrayList<>();
-        mClientService.getApi().getChapters().enqueue(new Callback<List<Chapter>>() {
+        ClientService.getInstance().getClientApi().getChapters().enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
                 if (response.isSuccessful()) {

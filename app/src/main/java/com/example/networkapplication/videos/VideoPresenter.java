@@ -18,21 +18,15 @@ public class VideoPresenter {
 
     private VideoView mVideoView;
 
-    private ClientService mClientService;
-
     private List<Video> mVideoList;
 
     public VideoPresenter(VideoView videoView) {
         mVideoView = videoView;
-
-        if (mClientService == null) {
-            mClientService = new ClientService();
-        }
     }
 
     public void getVideos() {
         mVideoList = new ArrayList<>();
-        mClientService.getApi().getVideos().enqueue(new Callback<List<Video>>() {
+        ClientService.getInstance().getClientApi().getVideos().enqueue(new Callback<List<Video>>() {
             @Override
             public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
                 if (response.isSuccessful()) {

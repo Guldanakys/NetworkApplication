@@ -8,14 +8,8 @@ public class ProfilePresenter {
 
     private ProfileView mProfileView;
 
-    private ClientService mClientService;
-
     public  ProfilePresenter(ProfileView profileView) {
         mProfileView = profileView;
-
-        if (mClientService == null) {
-            mClientService = new ClientService();
-        }
     }
 
     public void getUser(int id) {

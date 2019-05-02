@@ -15,20 +15,14 @@ public class ChapterDetailsPresenter {
 
     private ChapterDetailsView mChapterDetailsView;
 
-    private ClientService mClientService;
-
     private Chapter mChapter;
 
     public ChapterDetailsPresenter(ChapterDetailsView chapterDetailsView) {
         mChapterDetailsView = chapterDetailsView;
-
-        if (mClientService == null) {
-            mClientService = new ClientService();
-        }
     }
 
     public void getChapter(int id) {
-        mClientService.getApi().getChapter(id).enqueue(new Callback<Chapter>() {
+        ClientService.getInstance().getClientApi().getChapter(id).enqueue(new Callback<Chapter>() {
             @Override
             public void onResponse(Call<Chapter> call, Response<Chapter> response) {
                 if (response.isSuccessful()) {

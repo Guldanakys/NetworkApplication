@@ -16,21 +16,14 @@ public class LoginPresenter {
 
     private LoginView mLoginView;
 
-    private ClientService mClientService;
-
     private MyResponse mResponse;
 
     public LoginPresenter(LoginView loginView) {
         mLoginView = loginView;
-
-        if (mClientService == null) {
-            mClientService = new ClientService();
-        }
-
     }
 
     public void authorizeUser(User user) {
-        mClientService.getApi().logUser(user).enqueue(new Callback<MyResponse>() {
+        ClientService.getInstance().getClientApi().logUser(user).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 if (response.isSuccessful()) {
@@ -47,7 +40,7 @@ public class LoginPresenter {
     }
 
     public void authUser(String email, String password) {
-        mClientService.getApi().loginUser(email, password).enqueue(new Callback<MyResponse>() {
+        ClientService.getInstance().getClientApi().loginUser(email, password).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 if (response.isSuccessful()) {

@@ -15,18 +15,12 @@ public class RegisterPresenter {
 
     private RegisterView mRegisterView;
 
-    private ClientService mClientService;
-
     public RegisterPresenter(RegisterView registerView) {
         mRegisterView = registerView;
-
-        if (mClientService == null) {
-            mClientService = new ClientService();
-        }
     }
 
     public void registerUser(User user) {
-        mClientService.getApi().registerUser(user).enqueue(new Callback<User>() {
+        ClientService.getInstance().getClientApi().registerUser(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
