@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
 import com.example.networkapplication.models.Chapter;
+import com.example.networkapplication.viewholders.ChapterViewHolder;
 
 import java.util.List;
 

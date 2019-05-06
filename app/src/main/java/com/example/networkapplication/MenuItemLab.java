@@ -20,10 +20,10 @@ public class MenuItemLab {
 
     private MenuItemLab() {
         mMenuItemList = new ArrayList<>();
-        mMenuItemList.add(new MenuItem(1, "Chapters", "ic_personal_desktop"));
-        mMenuItemList.add(new MenuItem(2, "Videos", "ic_video_library"));
-        mMenuItemList.add(new MenuItem(3, "Quiz", "ic_pen"));
-        mMenuItemList.add(new MenuItem(4, "Simulation", "ic_router"));
+        mMenuItemList.add(new MenuItem(1, "Chapters", "ic_chapters"));
+        mMenuItemList.add(new MenuItem(2, "Videos", "ic_videos"));
+        mMenuItemList.add(new MenuItem(3, "Quiz", "ic_quiz"));
+        mMenuItemList.add(new MenuItem(4, "Simulation", "ic_simulation"));
     }
 
     public List<MenuItem> getMenuItemList() {

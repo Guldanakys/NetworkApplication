@@ -1,4 +1,4 @@
-package com.example.networkapplication.adapters;
+package com.example.networkapplication.viewholders;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

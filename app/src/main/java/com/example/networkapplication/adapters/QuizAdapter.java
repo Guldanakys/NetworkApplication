@@ -9,41 +9,41 @@ import android.view.ViewGroup;
 
 import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
-import com.example.networkapplication.models.Video;
-import com.example.networkapplication.viewholders.VideoViewHolder;
+import com.example.networkapplication.models.Quiz;
+import com.example.networkapplication.viewholders.QuizViewHolder;
 
 import java.util.List;
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
+public class QuizAdapter extends RecyclerView.Adapter<QuizViewHolder> {
 
-    private List<Video> mVideoList;
+    private List<Quiz> mQuizList;
 
     private Context mContext;
 
     private OnItemClickListener mItemClickListener;
 
-    public VideoAdapter(List<Video> videoList, Context context) {
-        mVideoList = videoList;
+    public QuizAdapter(List<Quiz> quizList, Context context) {
+        mQuizList = quizList;
         mContext = context;
     }
 
     @NonNull
     @Override
-    public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public QuizViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-        View view = layoutInflater.inflate(R.layout.video_list_item, viewGroup, false);
-        return new VideoViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.quiz_list_item, viewGroup, false);
+        return new QuizViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VideoViewHolder videoViewHolder, int i) {
-        Video video = mVideoList.get(i);
-        videoViewHolder.bind(video, mItemClickListener, mContext);
+    public void onBindViewHolder(@NonNull QuizViewHolder quizViewHolder, int i) {
+        Quiz quiz = mQuizList.get(i);
+        quizViewHolder.bind(quiz, mItemClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return mVideoList.size();
+        return mQuizList.size();
     }
 
     public void setItemClickListener(OnItemClickListener itemClickListener) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.networkapplication.OnItemClickListener;
@@ -26,6 +27,7 @@ public class ChapterListActivity extends AppCompatActivity implements ChapterVie
     private ChapterAdapter mChapterAdapter;
     private RecyclerView mRecyclerView;
     private List<Chapter> mChapterList;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +43,30 @@ public class ChapterListActivity extends AppCompatActivity implements ChapterVie
 
 
    private void initUI() {
+       mProgressBar = (ProgressBar) findViewById(R.id.chapter_list_progress);
        mRecyclerView = (RecyclerView) findViewById(R.id.chapter_recycler);
        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
        mChapterList = new ArrayList<>();
        mChapterAdapter = new ChapterAdapter(mChapterList, this);
        mChapterAdapter.setItemClickListener(this);
        mRecyclerView.setAdapter(mChapterAdapter);
+       showProgress();
    }
+
+    private void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void showChapterList(List<Chapter> chapterList) {
         mChapterList.addAll(chapterList);
         mChapterAdapter.notifyDataSetChanged();
+        hideProgress();
     }
 
     @Override
