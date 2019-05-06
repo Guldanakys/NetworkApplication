@@ -119,9 +119,9 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         final Button pressed = (Button)v;
         if (pressed.getText().equals(mQuestion.getAnswer())) {
             mCorrectCount++;
-            pressed.setBackgroundColor(Color.GREEN);
+            pressed.setBackgroundResource(R.drawable.green_quiz_background);
         } else {
-            pressed.setBackgroundColor(Color.RED);
+            pressed.setBackgroundResource(R.drawable.red_quiz_background);
         }
 
         disableButtons();
@@ -131,7 +131,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void run() {
                 mTotalCount++;
-                pressed.setBackgroundResource(R.color.colorPrimary);
+                pressed.setBackgroundResource(R.drawable.quiz_button_background);
                 updateQuestion();
             }
         }, 1500);
