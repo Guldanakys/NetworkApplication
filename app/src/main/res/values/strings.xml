@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NetworkApplication</string>
+    <string name="app_name">Nets</string>
     <string name="nav_notifications">Notifications</string>
     <string name="nav_home">Home</string>
     <string name="nav_profile">Profile</string>
