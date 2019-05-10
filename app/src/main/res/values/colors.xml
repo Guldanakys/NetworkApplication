@@ -5,4 +5,6 @@
     <color name="colorAccent">#4B6FF5</color>
     <color name="videoTint">#83000000</color>
     <color name="dark_grey">#383838</color>
+    <color name="light_green">#5EFF73</color>
+    <color name="light_grey">#F5F5F5</color>
 </resources>

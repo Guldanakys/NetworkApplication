@@ -12,13 +12,6 @@ import com.example.networkapplication.models.User;
 
 public class ProfileFragment extends Fragment {
 
-    private User mUser;
-    private TextView mNickName;
-    private TextView mFullName;
-    private TextView mProgress;
-    private TextView mRating;
-    private TextView mEmail;
-
     public ProfileFragment() {
     }
 
@@ -37,11 +30,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initUI(View view) {
-        mNickName = (TextView) view.findViewById(R.id.user_nick_name);
-        mProgress = (TextView) view.findViewById(R.id.user_progress);
-        mRating = (TextView) view.findViewById(R.id.user_rating);
-        mFullName = (TextView) view.findViewById(R.id.user_full_name);
-        mEmail = (TextView) view.findViewById(R.id.user_email);
     }
 
 }
