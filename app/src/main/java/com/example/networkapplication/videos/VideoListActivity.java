@@ -60,4 +60,10 @@ public class VideoListActivity extends AppCompatActivity implements VideoView, O
         intent.putExtra("videoId", id);
         startActivity(intent);
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }
