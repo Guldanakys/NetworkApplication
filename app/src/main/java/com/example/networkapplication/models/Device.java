@@ -8,13 +8,16 @@ public class Device {
 
     private int mImageId;
 
+    private String mIpAddress;
+
     public Device() {
     }
 
-    public Device(int id, String name, int imageId) {
+    public Device(int id, String name, int imageId, String ipAddress) {
         mId = id;
         mName = name;
         mImageId = imageId;
+        mIpAddress = ipAddress;
     }
 
     public int getId() {
@@ -39,5 +42,13 @@ public class Device {
 
     public void setImageId(int imageId) {
         mImageId = imageId;
+    }
+
+    public String getIpAddress() {
+        return mIpAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        mIpAddress = ipAddress;
     }
 }

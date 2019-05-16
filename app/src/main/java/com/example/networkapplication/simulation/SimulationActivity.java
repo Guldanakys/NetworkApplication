@@ -1,5 +1,6 @@
 package com.example.networkapplication.simulation;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +9,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.networkapplication.OnItemClickListener;
@@ -20,7 +24,7 @@ import com.example.networkapplication.models.Device;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationActivity extends AppCompatActivity implements OnItemClickListener {
+public class SimulationActivity extends AppCompatActivity implements OnItemClickListener, GuiDialogListener {
 
     private DeviceAdapter mDeviceAdapter;
     private RecyclerView mDeviceRecycler;
@@ -38,10 +42,8 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulation);
 
-        mGestureDetector = new GestureDetector(this, new SingleTapConfirm());
-        mSimulationLayout = (RelativeLayout) findViewById(R.id.simulation_layout);
-
         initUI();
+
         initDeviceList();
     }
 
@@ -53,19 +55,39 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         mDeviceAdapter = new DeviceAdapter(mDeviceList);
         mDeviceAdapter.setItemClickListener(this);
         mDeviceRecycler.setAdapter(mDeviceAdapter);
+        mGestureDetector = new GestureDetector(this, new SingleTapConfirm());
+        mSimulationLayout = (RelativeLayout) findViewById(R.id.simulation_layout);
     }
 
     private void initDeviceList() {
-        mDeviceList.add(new Device(1, "Laptop", R.drawable.ic_laptop));
-        mDeviceList.add(new Device(2, "Switch", R.drawable.ic_switch));
-        mDeviceList.add(new Device(3, "Router", R.drawable.ic_router));
-        mDeviceList.add(new Device(4, "Cable", R.drawable.ic_cable));
+        mDeviceList.add(new Device(1, "Laptop", R.drawable.ic_laptop, ""));
+        mDeviceList.add(new Device(2, "Switch", R.drawable.ic_switch, ""));
+        mDeviceList.add(new Device(3, "Router", R.drawable.ic_router, ""));
+        mDeviceList.add(new Device(4, "Cable", R.drawable.ic_cable, ""));
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
+    private void addDevice(Device device) {
+        int id = mSimulationDeviceList.size() + 1;
+        Device simulationDevice = new Device(id, device.getName() + id, device.getImageId(), "");
+        mSimulationDeviceList.add(simulationDevice);
+        ImageButton newDeviceImage = new ImageButton(SimulationActivity.this);
+        newDeviceImage.setTag(simulationDevice);
+        newDeviceImage.setBackgroundResource(simulationDevice.getImageId());
+        newDeviceImage.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+        newDeviceImage.setOnTouchListener(onTouchListener);
+        mSimulationLayout.addView(newDeviceImage);
+    }
+
+    private void openGuiDialog() {
+        GuiDialog guiDialog = new GuiDialog();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("hostname", mDevice.getName());
+        bundle.putString("ip_address", mDevice.getIpAddress());
+        guiDialog.setArguments(bundle);
+
+        guiDialog.show(getSupportFragmentManager(), "gui dialog");
     }
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
@@ -76,7 +98,7 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
 
             if (mGestureDetector.onTouchEvent(event)) {
                 mDevice = ((Device) v.getTag());
-                Toast.makeText(SimulationActivity.this, mDevice.getName(), Toast.LENGTH_SHORT).show();
+                openGuiDialog();
                 return true;
             } else {
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -108,33 +130,19 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
 
     @Override
     public void onItemClick(int position, int id) {
-        final Device device = mDeviceList.get(position);
+        Device device = mDeviceList.get(position);
         addDevice(device);
     }
 
-    private void addDevice(Device device) {
-        int id = mSimulationDeviceList.size() + 1;
-        Device simDev = new Device(id, device.getName() + id, device.getImageId());
-        mSimulationDeviceList.add(simDev);
-        ImageButton newDeviceImage = new ImageButton(SimulationActivity.this);
-        newDeviceImage.setTag(simDev);
-        newDeviceImage.setBackgroundResource(device.getImageId());
-        newDeviceImage.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        newDeviceImage.setOnTouchListener(onTouchListener);
-        mSimulationLayout.addView(newDeviceImage);
+    @Override
+    public void applyChanges(String hostname, String ipAddress) {
+        mDevice.setName(hostname);
+        mDevice.setIpAddress(ipAddress);
     }
 
-    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent event) {
-            return true;
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            return true;
-        }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
