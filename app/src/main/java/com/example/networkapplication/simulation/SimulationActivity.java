@@ -1,6 +1,9 @@
 package com.example.networkapplication.simulation;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ import android.widget.Toast;
 import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
 import com.example.networkapplication.adapters.DeviceAdapter;
+import com.example.networkapplication.models.Coordinate;
 import com.example.networkapplication.models.Device;
 
 import java.util.ArrayList;
@@ -37,6 +42,13 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
     private int yDelta;
     private Device mDevice;
 
+    private Button mPingButton;
+    private ImageView mPingView;
+
+    private float mStartX;
+    private float mStartY;
+    private List<Coordinate> mCoordinateList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +64,14 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         mDeviceRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mDeviceList = new ArrayList<>();
         mSimulationDeviceList = new ArrayList<>();
+        mCoordinateList = new ArrayList<>();
         mDeviceAdapter = new DeviceAdapter(mDeviceList);
         mDeviceAdapter.setItemClickListener(this);
         mDeviceRecycler.setAdapter(mDeviceAdapter);
         mGestureDetector = new GestureDetector(this, new SingleTapConfirm());
         mSimulationLayout = (RelativeLayout) findViewById(R.id.simulation_layout);
+        mPingButton = (Button) findViewById(R.id.ping);
+        mPingButton.setOnClickListener(pingListener);
     }
 
     private void initDeviceList() {
@@ -76,6 +91,7 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         newDeviceImage.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT));
         newDeviceImage.setOnTouchListener(onTouchListener);
+        mCoordinateList.add(new Coordinate(simulationDevice.getName(), 0f, 0f));
         mSimulationLayout.addView(newDeviceImage);
     }
 
@@ -108,6 +124,13 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
                         yDelta = Y - lParams.topMargin;
                         break;
                     case MotionEvent.ACTION_UP:
+                        Device device = ((Device) v.getTag());
+                        for (Coordinate coordinate : mCoordinateList) {
+                            if (coordinate.getHostName().equals(device.getName())) {
+                                coordinate.setXLeft(X - xDelta);
+                                coordinate.setYTop(Y - yDelta);
+                            }
+                        }
                         break;
                     case MotionEvent.ACTION_POINTER_DOWN:
                         break;
@@ -119,12 +142,32 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
                         layoutParams.topMargin = Y - yDelta;
                         layoutParams.rightMargin = -250;
                         layoutParams.bottomMargin = -250;
+
                         v.setLayoutParams(layoutParams);
                         break;
                 }
                 mSimulationLayout.invalidate();
             }
             return false;
+        }
+    };
+
+    private View.OnClickListener pingListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPingView = new ImageView(SimulationActivity.this);
+            mPingView.setImageResource(R.drawable.ping_signal);
+            mPingView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT));
+            mSimulationLayout.addView(mPingView);
+            startPing();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mSimulationLayout.removeView(mPingView);
+                }
+            }, 1200);
         }
     };
 
@@ -144,5 +187,19 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private void startPing() {
+        ObjectAnimator rightAnimator = ObjectAnimator
+                .ofFloat(mPingView, "x", mCoordinateList.get(0).getXLeft(), mCoordinateList.get(1).getXLeft())
+                .setDuration(1000);
+
+        ObjectAnimator downAnimator = ObjectAnimator
+                .ofFloat(mPingView, "y", mCoordinateList.get(0).getYTop(), mCoordinateList.get(1).getYTop())
+                .setDuration(1000);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(rightAnimator, downAnimator);
+        animatorSet.start();
     }
 }
