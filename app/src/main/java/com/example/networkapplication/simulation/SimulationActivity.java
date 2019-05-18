@@ -2,7 +2,6 @@ package com.example.networkapplication.simulation;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,43 +10,40 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.networkapplication.DataLab;
 import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
-import com.example.networkapplication.adapters.DeviceAdapter;
+import com.example.networkapplication.adapters.StandardDeviceAdapter;
 import com.example.networkapplication.models.Coordinate;
-import com.example.networkapplication.models.Device;
+import com.example.networkapplication.models.SimulationDevice;
+import com.example.networkapplication.models.StandardDevice;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationActivity extends AppCompatActivity implements OnItemClickListener, GuiDialogListener {
 
-    private DeviceAdapter mDeviceAdapter;
-    private RecyclerView mDeviceRecycler;
-    private List<Device> mDeviceList;
+    private StandardDeviceAdapter mStandardDeviceAdapter;
+    private RecyclerView mStandardDeviceRecycler;
+    private List<StandardDevice> mStandardDeviceList;
 
     private GestureDetector mGestureDetector;
-    private List<Device> mSimulationDeviceList;
+
+    private SimulationDevice mCurrentDevice;
+    private List<SimulationDevice> mSimulationDeviceList;
     private RelativeLayout mSimulationLayout;
+
     private int xDelta;
     private int yDelta;
-    private Device mDevice;
-
+    private EditText mCommand;
     private Button mPingButton;
-    private ImageView mPingView;
-
-    private float mStartX;
-    private float mStartY;
-    private List<Coordinate> mCoordinateList;
+    private ImageView mPacketView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,54 +51,48 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         setContentView(R.layout.activity_simulation);
 
         initUI();
-
-        initDeviceList();
     }
 
     private void initUI() {
-        mDeviceRecycler = (RecyclerView) findViewById(R.id.device_recycler);
-        mDeviceRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mDeviceList = new ArrayList<>();
+        mStandardDeviceList = new ArrayList<>();
+        mStandardDeviceList = DataLab.get().getStandardDeviceList();
+        mStandardDeviceRecycler = (RecyclerView) findViewById(R.id.standard_device_recycler);
+        mStandardDeviceRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mStandardDeviceAdapter = new StandardDeviceAdapter(mStandardDeviceList);
+        mStandardDeviceAdapter.setItemClickListener(this);
+        mStandardDeviceRecycler.setAdapter(mStandardDeviceAdapter);
+
         mSimulationDeviceList = new ArrayList<>();
-        mCoordinateList = new ArrayList<>();
-        mDeviceAdapter = new DeviceAdapter(mDeviceList);
-        mDeviceAdapter.setItemClickListener(this);
-        mDeviceRecycler.setAdapter(mDeviceAdapter);
         mGestureDetector = new GestureDetector(this, new SingleTapConfirm());
         mSimulationLayout = (RelativeLayout) findViewById(R.id.simulation_layout);
+        mCommand = (EditText) findViewById(R.id.command);
         mPingButton = (Button) findViewById(R.id.ping);
         mPingButton.setOnClickListener(pingListener);
     }
 
-    private void initDeviceList() {
-        mDeviceList.add(new Device(1, "Laptop", R.drawable.ic_laptop, ""));
-        mDeviceList.add(new Device(2, "Switch", R.drawable.ic_switch, ""));
-        mDeviceList.add(new Device(3, "Router", R.drawable.ic_router, ""));
-        mDeviceList.add(new Device(4, "Cable", R.drawable.ic_cable, ""));
-    }
-
-    private void addDevice(Device device) {
+    private void addDevice(StandardDevice standardDevice) {
         int id = mSimulationDeviceList.size() + 1;
-        Device simulationDevice = new Device(id, device.getName() + id, device.getImageId(), "");
+        SimulationDevice simulationDevice = new SimulationDevice(id,
+                standardDevice.getTitle() + id,
+                standardDevice.getImageId(),
+                "", 0, 0);
         mSimulationDeviceList.add(simulationDevice);
-        ImageButton newDeviceImage = new ImageButton(SimulationActivity.this);
-        newDeviceImage.setTag(simulationDevice);
-        newDeviceImage.setBackgroundResource(simulationDevice.getImageId());
-        newDeviceImage.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+
+        ImageButton newSimulationDevice = new ImageButton(SimulationActivity.this);
+        newSimulationDevice.setTag(simulationDevice);
+        newSimulationDevice.setBackgroundResource(simulationDevice.getImageId());
+        newSimulationDevice.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT));
-        newDeviceImage.setOnTouchListener(onTouchListener);
-        mCoordinateList.add(new Coordinate(simulationDevice.getName(), 0f, 0f));
-        mSimulationLayout.addView(newDeviceImage);
+        newSimulationDevice.setOnTouchListener(onTouchListener);
+        mSimulationLayout.addView(newSimulationDevice);
     }
 
     private void openGuiDialog() {
         GuiDialog guiDialog = new GuiDialog();
-
         Bundle bundle = new Bundle();
-        bundle.putString("hostname", mDevice.getName());
-        bundle.putString("ip_address", mDevice.getIpAddress());
+        bundle.putString("hostname", mCurrentDevice.getName());
+        bundle.putString("ip_address", mCurrentDevice.getIpAddress());
         guiDialog.setArguments(bundle);
-
         guiDialog.show(getSupportFragmentManager(), "gui dialog");
     }
 
@@ -111,9 +101,9 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         public boolean onTouch(View v, MotionEvent event) {
             final int X = (int) event.getRawX();
             final int Y = (int) event.getRawY();
+            mCurrentDevice = ((SimulationDevice) v.getTag());
 
             if (mGestureDetector.onTouchEvent(event)) {
-                mDevice = ((Device) v.getTag());
                 openGuiDialog();
                 return true;
             } else {
@@ -124,11 +114,10 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
                         yDelta = Y - lParams.topMargin;
                         break;
                     case MotionEvent.ACTION_UP:
-                        Device device = ((Device) v.getTag());
-                        for (Coordinate coordinate : mCoordinateList) {
-                            if (coordinate.getHostName().equals(device.getName())) {
-                                coordinate.setXLeft(X - xDelta);
-                                coordinate.setYTop(Y - yDelta);
+                        for (SimulationDevice simulationDevice : mSimulationDeviceList) {
+                            if (simulationDevice.getName().equals(mCurrentDevice.getName())) {
+                                simulationDevice.setXLeft(X - xDelta);
+                                simulationDevice.setYTop(Y - yDelta);
                             }
                         }
                         break;
@@ -142,7 +131,6 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
                         layoutParams.topMargin = Y - yDelta;
                         layoutParams.rightMargin = -250;
                         layoutParams.bottomMargin = -250;
-
                         v.setLayoutParams(layoutParams);
                         break;
                 }
@@ -155,17 +143,17 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
     private View.OnClickListener pingListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mPingView = new ImageView(SimulationActivity.this);
-            mPingView.setImageResource(R.drawable.ping_signal);
-            mPingView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+            mPacketView = new ImageView(SimulationActivity.this);
+            mPacketView.setImageResource(R.drawable.ping_signal);
+            mPacketView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT));
-            mSimulationLayout.addView(mPingView);
+            mSimulationLayout.addView(mPacketView);
             startPing();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mSimulationLayout.removeView(mPingView);
+                    mSimulationLayout.removeView(mPacketView);
                 }
             }, 1200);
         }
@@ -173,14 +161,20 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
 
     @Override
     public void onItemClick(int position, int id) {
-        Device device = mDeviceList.get(position);
-        addDevice(device);
+        StandardDevice standardDevice = mStandardDeviceList.get(position);
+        addDevice(standardDevice);
     }
 
     @Override
     public void applyChanges(String hostname, String ipAddress) {
-        mDevice.setName(hostname);
-        mDevice.setIpAddress(ipAddress);
+        mCurrentDevice.setName(hostname);
+        mCurrentDevice.setIpAddress(ipAddress);
+        for (SimulationDevice simulationDevice : mSimulationDeviceList) {
+            if (mCurrentDevice.getId() == simulationDevice.getId()) {
+                simulationDevice.setName(hostname);
+                simulationDevice.setIpAddress(ipAddress);
+            }
+        }
     }
 
     @Override
@@ -190,12 +184,27 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
     }
 
     private void startPing() {
+        String command = mCommand.getText().toString();
+        String[] commands = command.split("\\s+");
+
+        SimulationDevice simulationDeviceStart = new SimulationDevice(1, "", 1, "", 0f, 0f);
+        SimulationDevice simulationDeviceEnd = new SimulationDevice(2, "", 2, "", 100f, 100f);
+
+        for (SimulationDevice simulationDevice : mSimulationDeviceList) {
+            if (commands[0].equals(simulationDevice.getName())) {
+                simulationDeviceStart = simulationDevice;
+            }
+            if (commands[1].equals(simulationDevice.getIpAddress())) {
+                simulationDeviceEnd = simulationDevice;
+            }
+        }
+
         ObjectAnimator rightAnimator = ObjectAnimator
-                .ofFloat(mPingView, "x", mCoordinateList.get(0).getXLeft(), mCoordinateList.get(1).getXLeft())
+                .ofFloat(mPacketView, "x", simulationDeviceStart.getXLeft(), simulationDeviceEnd.getXLeft())
                 .setDuration(1000);
 
         ObjectAnimator downAnimator = ObjectAnimator
-                .ofFloat(mPingView, "y", mCoordinateList.get(0).getYTop(), mCoordinateList.get(1).getYTop())
+                .ofFloat(mPacketView, "y", simulationDeviceStart.getYTop(), simulationDeviceEnd.getYTop())
                 .setDuration(1000);
 
         AnimatorSet animatorSet = new AnimatorSet();

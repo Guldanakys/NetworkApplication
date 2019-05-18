@@ -1,6 +1,6 @@
 package com.example.networkapplication.models;
 
-public class Device {
+public class SimulationDevice {
 
     private int mId;
 
@@ -10,14 +10,20 @@ public class Device {
 
     private String mIpAddress;
 
-    public Device() {
+    private float mXLeft;
+
+    private float mYTop;
+
+    public SimulationDevice() {
     }
 
-    public Device(int id, String name, int imageId, String ipAddress) {
+    public SimulationDevice(int id, String name, int imageId, String ipAddress, float XLeft, float YTop) {
         mId = id;
         mName = name;
         mImageId = imageId;
         mIpAddress = ipAddress;
+        mXLeft = XLeft;
+        mYTop = YTop;
     }
 
     public int getId() {
@@ -50,5 +56,21 @@ public class Device {
 
     public void setIpAddress(String ipAddress) {
         mIpAddress = ipAddress;
+    }
+
+    public float getXLeft() {
+        return mXLeft;
+    }
+
+    public void setXLeft(float XLeft) {
+        mXLeft = XLeft;
+    }
+
+    public float getYTop() {
+        return mYTop;
+    }
+
+    public void setYTop(float YTop) {
+        mYTop = YTop;
     }
 }

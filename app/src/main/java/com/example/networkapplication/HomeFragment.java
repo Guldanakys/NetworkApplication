@@ -19,12 +19,12 @@ import com.example.networkapplication.simulation.SimulationActivity;
 import com.example.networkapplication.videos.VideoActivity;
 import com.example.networkapplication.videos.VideoListActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OnItemClickListener {
 
-    private MenuItemLab mMenuItemLab;
-    private List<MenuItem> mMenuItems;
+    private List<MenuItem> mMenuItemList;
     private RecyclerView mRecyclerView;
     private MenuItemAdapter mMenuItemAdapter;
 
@@ -37,16 +37,18 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         initUI(view);
+
         return view;
     }
 
     private void initUI(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.menu_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mMenuItemLab = MenuItemLab.get();
-        mMenuItems = mMenuItemLab.getMenuItemList();
-        mMenuItemAdapter = new MenuItemAdapter(getActivity(), mMenuItems);
+        mMenuItemList = new ArrayList<>();
+        mMenuItemList = DataLab.get().getMenuItemList();
+        mMenuItemAdapter = new MenuItemAdapter(getActivity(), mMenuItemList);
         mMenuItemAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mMenuItemAdapter);
     }
