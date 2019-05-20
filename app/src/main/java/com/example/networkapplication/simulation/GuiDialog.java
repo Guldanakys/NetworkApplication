@@ -14,8 +14,10 @@ import com.example.networkapplication.R;
 
 public class GuiDialog extends AppCompatDialogFragment {
 
-    private EditText mGuiHostname;
+    private EditText mGuiHostName;
     private EditText mGuiIpAddress;
+    private EditText mGuiSubnetMask;
+    private EditText mGuiGateway;
     private GuiDialogListener mListener;
 
     @Override
@@ -36,9 +38,11 @@ public class GuiDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String hostname = mGuiHostname.getText().toString();
+                        String hostname = mGuiHostName.getText().toString();
                         String ipAddress = mGuiIpAddress.getText().toString();
-                        mListener.applyChanges(hostname, ipAddress);
+                        String subnetMask = mGuiSubnetMask.getText().toString();
+                        String gateway = mGuiGateway.getText().toString();
+                        mListener.applyChanges(hostname, ipAddress, subnetMask, gateway);
                     }
                 });
 
@@ -48,12 +52,21 @@ public class GuiDialog extends AppCompatDialogFragment {
     }
 
     private void initUI(View view) {
-        mGuiHostname = (EditText) view.findViewById(R.id.gui_hostname);
+        mGuiHostName = (EditText) view.findViewById(R.id.gui_hostname);
         mGuiIpAddress = (EditText) view.findViewById(R.id.gui_ip_address);
-        mGuiHostname.setText(getArguments().getString("hostname"));
+        mGuiSubnetMask = (EditText) view.findViewById(R.id.gui_subnet_mask);
+        mGuiGateway = (EditText) view.findViewById(R.id.gui_gateway);
+
+        mGuiHostName.setText(getArguments().getString("hostname"));
         mGuiIpAddress.setText(getArguments().getString("ip_address"));
-        mGuiHostname.setSelection(mGuiHostname.getText().length());
+        mGuiSubnetMask.setText(getArguments().getString("subnet_mask"));
+        mGuiGateway.setText(getArguments().getString("gateway"));
+
+
+        mGuiHostName.setSelection(mGuiHostName.getText().length());
         mGuiIpAddress.setSelection(mGuiIpAddress.getText().length());
+        mGuiSubnetMask.setSelection(mGuiSubnetMask.getText().length());
+        mGuiGateway.setSelection(mGuiGateway.getText().length());
     }
 
     @Override

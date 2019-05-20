@@ -14,11 +14,11 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.4"
             android:layout_margin="10dp"
-            android:textSize="18sp"
-
-            android:textColor="@color/dark_grey"
+            android:textSize="16sp"
+            android:background="@drawable/gui_text_background"
+            android:textColor="@color/colorPrimary"
             android:text="@string/gui_hostname" />
 
         <EditText
@@ -38,10 +38,11 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.4"
             android:layout_margin="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/dark_grey"
+            android:textSize="16sp"
+            android:background="@drawable/gui_text_background"
+            android:textColor="@color/colorPrimary"
             android:text="@string/gui_ip_address" />
 
         <EditText
@@ -54,6 +55,55 @@
             android:digits="0123456789."/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:layout_margin="10dp"
+            android:textSize="16sp"
+            android:background="@drawable/gui_text_background"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/gui_subnet_mask" />
 
+        <EditText
+            android:id="@+id/gui_subnet_mask"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_margin="10dp"
+            android:inputType="number"
+            android:digits="0123456789."/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:layout_margin="10dp"
+            android:textSize="16sp"
+            android:background="@drawable/gui_text_background"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/gui_gateway" />
+
+        <EditText
+            android:id="@+id/gui_gateway"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_margin="10dp"
+            android:inputType="number"
+            android:digits="0123456789."/>
+    </LinearLayout>
 </LinearLayout>

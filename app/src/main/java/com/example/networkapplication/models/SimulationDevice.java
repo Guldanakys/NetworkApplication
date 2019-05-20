@@ -1,14 +1,12 @@
 package com.example.networkapplication.models;
 
-public class SimulationDevice {
-
-    private int mId;
-
-    private String mName;
-
-    private int mImageId;
+public class SimulationDevice extends Device {
 
     private String mIpAddress;
+
+    private String mSubnetMask;
+
+    private String mGateway;
 
     private float mXLeft;
 
@@ -17,37 +15,20 @@ public class SimulationDevice {
     public SimulationDevice() {
     }
 
-    public SimulationDevice(int id, String name, int imageId, String ipAddress, float XLeft, float YTop) {
-        mId = id;
-        mName = name;
-        mImageId = imageId;
+    public SimulationDevice(int id,
+                            String name,
+                            int imageId,
+                            String ipAddress,
+                            String subnetMask,
+                            String gateway,
+                            float XLeft,
+                            float YTop) {
+        super(id, name, imageId);
         mIpAddress = ipAddress;
+        mSubnetMask = subnetMask;
+        mGateway = gateway;
         mXLeft = XLeft;
         mYTop = YTop;
-    }
-
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(int id) {
-        mId = id;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public void setName(String name) {
-        mName = name;
-    }
-
-    public int getImageId() {
-        return mImageId;
-    }
-
-    public void setImageId(int imageId) {
-        mImageId = imageId;
     }
 
     public String getIpAddress() {
@@ -56,6 +37,22 @@ public class SimulationDevice {
 
     public void setIpAddress(String ipAddress) {
         mIpAddress = ipAddress;
+    }
+
+    public String getSubnetMask() {
+        return mSubnetMask;
+    }
+
+    public void setSubnetMask(String subnetMask) {
+        mSubnetMask = subnetMask;
+    }
+
+    public String getGateway() {
+        return mGateway;
+    }
+
+    public void setGateway(String gateway) {
+        mGateway = gateway;
     }
 
     public float getXLeft() {

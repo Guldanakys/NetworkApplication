@@ -2,6 +2,7 @@ package com.example.networkapplication.simulation;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,7 +22,6 @@ import com.example.networkapplication.DataLab;
 import com.example.networkapplication.OnItemClickListener;
 import com.example.networkapplication.R;
 import com.example.networkapplication.adapters.StandardDeviceAdapter;
-import com.example.networkapplication.models.Coordinate;
 import com.example.networkapplication.models.SimulationDevice;
 import com.example.networkapplication.models.StandardDevice;
 
@@ -73,9 +74,9 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
     private void addDevice(StandardDevice standardDevice) {
         int id = mSimulationDeviceList.size() + 1;
         SimulationDevice simulationDevice = new SimulationDevice(id,
-                standardDevice.getTitle() + id,
+                standardDevice.getName() + id,
                 standardDevice.getImageId(),
-                "", 0, 0);
+                "", "", "", 0, 0);
         mSimulationDeviceList.add(simulationDevice);
 
         ImageButton newSimulationDevice = new ImageButton(SimulationActivity.this);
@@ -87,11 +88,21 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         mSimulationLayout.addView(newSimulationDevice);
     }
 
+    private void addPacket() {
+        mPacketView = new ImageView(SimulationActivity.this);
+        mPacketView.setImageResource(R.drawable.ic_envelope);
+        mPacketView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+        mSimulationLayout.addView(mPacketView);
+    }
+
     private void openGuiDialog() {
         GuiDialog guiDialog = new GuiDialog();
         Bundle bundle = new Bundle();
         bundle.putString("hostname", mCurrentDevice.getName());
         bundle.putString("ip_address", mCurrentDevice.getIpAddress());
+        bundle.putString("subnet_mask", mCurrentDevice.getSubnetMask());
+        bundle.putString("gateway", mCurrentDevice.getGateway());
         guiDialog.setArguments(bundle);
         guiDialog.show(getSupportFragmentManager(), "gui dialog");
     }
@@ -143,19 +154,31 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
     private View.OnClickListener pingListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mPacketView = new ImageView(SimulationActivity.this);
-            mPacketView.setImageResource(R.drawable.ping_signal);
-            mPacketView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT));
-            mSimulationLayout.addView(mPacketView);
-            startPing();
-            Handler handler = new Handler();
+            String command = mCommand.getText().toString();
+            String[] commands = command.split("\\s+");
+
+            SimulationDevice simulationDeviceStart = new SimulationDevice(1, "", 1, "", "", "", 0f, 0f);
+            SimulationDevice simulationDeviceEnd = new SimulationDevice(2, "", 2, "", "", "", 0f, 0f);
+
+            for (SimulationDevice simulationDevice : mSimulationDeviceList) {
+                if (commands[0].equals(simulationDevice.getName())) {
+                    simulationDeviceStart = simulationDevice;
+                }
+                if (commands[1].equals(simulationDevice.getIpAddress())) {
+                    simulationDeviceEnd = simulationDevice;
+                }
+            }
+            addPacket();
+            startPing(simulationDeviceStart, simulationDeviceEnd);
+
+
+            /*Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mSimulationLayout.removeView(mPacketView);
                 }
-            }, 1200);
+            }, 1200);*/
         }
     };
 
@@ -166,13 +189,17 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
     }
 
     @Override
-    public void applyChanges(String hostname, String ipAddress) {
+    public void applyChanges(String hostname, String ipAddress, String subnetMask, String gateway) {
         mCurrentDevice.setName(hostname);
         mCurrentDevice.setIpAddress(ipAddress);
+        mCurrentDevice.setSubnetMask(subnetMask);
+        mCurrentDevice.setGateway(gateway);
         for (SimulationDevice simulationDevice : mSimulationDeviceList) {
             if (mCurrentDevice.getId() == simulationDevice.getId()) {
                 simulationDevice.setName(hostname);
                 simulationDevice.setIpAddress(ipAddress);
+                simulationDevice.setSubnetMask(subnetMask);
+                simulationDevice.setGateway(gateway);
             }
         }
     }
@@ -183,29 +210,19 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         return true;
     }
 
-    private void startPing() {
-        String command = mCommand.getText().toString();
-        String[] commands = command.split("\\s+");
-
-        SimulationDevice simulationDeviceStart = new SimulationDevice(1, "", 1, "", 0f, 0f);
-        SimulationDevice simulationDeviceEnd = new SimulationDevice(2, "", 2, "", 100f, 100f);
-
-        for (SimulationDevice simulationDevice : mSimulationDeviceList) {
-            if (commands[0].equals(simulationDevice.getName())) {
-                simulationDeviceStart = simulationDevice;
-            }
-            if (commands[1].equals(simulationDevice.getIpAddress())) {
-                simulationDeviceEnd = simulationDevice;
-            }
-        }
+    private void startPing(SimulationDevice deviceStart, SimulationDevice deviceEnd) {
 
         ObjectAnimator rightAnimator = ObjectAnimator
-                .ofFloat(mPacketView, "x", simulationDeviceStart.getXLeft(), simulationDeviceEnd.getXLeft())
+                .ofFloat(mPacketView, "x", deviceStart.getXLeft(), deviceEnd.getXLeft())
                 .setDuration(1000);
+        rightAnimator.setInterpolator(new AccelerateInterpolator());
+        rightAnimator.setRepeatCount(2);
 
         ObjectAnimator downAnimator = ObjectAnimator
-                .ofFloat(mPacketView, "y", simulationDeviceStart.getYTop(), simulationDeviceEnd.getYTop())
+                .ofFloat(mPacketView, "y", deviceStart.getYTop(), deviceEnd.getYTop())
                 .setDuration(1000);
+        downAnimator.setInterpolator(new AccelerateInterpolator());
+        downAnimator.setRepeatCount(2);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(rightAnimator, downAnimator);

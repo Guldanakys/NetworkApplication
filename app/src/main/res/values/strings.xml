@@ -13,6 +13,8 @@
     <string name="register_last_name">Last Name</string>
     <string name="register_button">Register</string>
     <string name="chapter_rate">Rate</string>
-    <string name="gui_hostname">Hostname</string>
-    <string name="gui_ip_address">Ip address</string>
+    <string name="gui_hostname">Host name:</string>
+    <string name="gui_ip_address">Ip address:</string>
+    <string name="gui_subnet_mask">Subnet mask:</string>
+    <string name="gui_gateway">Gateway:</string>
 </resources>

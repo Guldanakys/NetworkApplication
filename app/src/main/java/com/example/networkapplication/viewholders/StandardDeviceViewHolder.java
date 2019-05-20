@@ -12,7 +12,7 @@ import com.example.networkapplication.models.StandardDevice;
 
 public class StandardDeviceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private TextView mStandardDeviceTitle;
+    private TextView mStandardDeviceName;
     private ImageView mStandardDeviceImage;
     private StandardDevice mStandardDevice;
     private OnItemClickListener mItemClickListener;
@@ -20,7 +20,7 @@ public class StandardDeviceViewHolder extends RecyclerView.ViewHolder implements
     public StandardDeviceViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        mStandardDeviceTitle = (TextView) itemView.findViewById(R.id.device_name);
+        mStandardDeviceName = (TextView) itemView.findViewById(R.id.device_name);
         mStandardDeviceImage = (ImageView) itemView.findViewById(R.id.device_image);
 
         itemView.setOnClickListener(this);
@@ -28,7 +28,7 @@ public class StandardDeviceViewHolder extends RecyclerView.ViewHolder implements
 
     public void bind(StandardDevice standardDevice, OnItemClickListener itemClickListener) {
         mStandardDevice = standardDevice;
-        mStandardDeviceTitle.setText(mStandardDevice.getTitle());
+        mStandardDeviceName.setText(mStandardDevice.getName());
         mStandardDeviceImage.setImageResource(mStandardDevice.getImageId());
         mItemClickListener = itemClickListener;
     }
