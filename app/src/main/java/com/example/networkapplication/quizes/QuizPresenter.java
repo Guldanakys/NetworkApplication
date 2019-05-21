@@ -1,5 +1,6 @@
 package com.example.networkapplication.quizes;
 
+import com.example.networkapplication.DataLab;
 import com.example.networkapplication.models.Quiz;
 
 import java.util.ArrayList;
@@ -19,9 +20,7 @@ public class QuizPresenter {
 
     public void getQuizes() {
         mQuizList = new ArrayList<>();
-        mQuizList.add(new Quiz(1, "Module 1", "asd"));
-        mQuizList.add(new Quiz(2, "Module 2", "asd"));
-        mQuizList.add(new Quiz(3, "Module 3", "asd"));
+        mQuizList = DataLab.get().getQuizList();
         mQuizView.showQuizList(mQuizList);
     }
 }

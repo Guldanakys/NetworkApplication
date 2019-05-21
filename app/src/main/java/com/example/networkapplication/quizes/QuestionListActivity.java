@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.networkapplication.DataLab;
 import com.example.networkapplication.R;
 import com.example.networkapplication.models.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionListActivity extends AppCompatActivity implements View.OnClickListener {
+public class QuestionListActivity extends AppCompatActivity implements View.OnClickListener, QuizResultsDialogListener {
 
     private Question mQuestion;
     private TextView mQuestionTitle;
@@ -28,6 +29,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
     private List<Question> mQuestionList;
     private int mTotalCount = 0;
     private int mCorrectCount = 0;
+    private int mIncorrectCount = 0;
     private TextView mTimer;
 
     @Override
@@ -38,7 +40,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
         initUI();
         loadQuestions();
         updateQuestion();
-        reverseTimer(30);
+        reverseTimer(60);
     }
 
     private void initUI() {
@@ -57,19 +59,14 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void loadQuestions() {
-        mQuestionList.add(new Question(1, "One MB is equal to?", "1024 Byte",
-                "1024 KB","1000 KB","1024 GB","1024 KB"));
-        mQuestionList.add(new Question(2, "What is used to make computer chips?", "Copper",
-                "Steel","Silicon","Iron","Silicon"));
-        mQuestionList.add(new Question(3, "TCP is used in which layer?", "Session layer",
-                "Transport layer","Network layer","Application layer","Transport layer"));
-
+        mQuestionList = new ArrayList<>();
+        mQuestionList = DataLab.get().getQuestionList();
     }
 
     private void updateQuestion() {
         enableButtons();
         if (mTotalCount >= mQuestionList.size()) {
-            Toast.makeText(this, mTotalCount+"", Toast.LENGTH_SHORT).show();
+            showResults();
         } else {
             mQuestion = mQuestionList.get(mTotalCount);
             mQuestionTitle.setText(mQuestion.getTitle());
@@ -78,6 +75,15 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
             mOptionThree.setText(mQuestion.getOptionThree());
             mOptionFour.setText(mQuestion.getOptionFour());
         }
+    }
+
+    private void showResults() {
+        QuizResultsDialog quizResultsDialog = new QuizResultsDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("correct", Integer.toString(mCorrectCount));
+        bundle.putString("incorrect", Integer.toString(mIncorrectCount));
+        quizResultsDialog.setArguments(bundle);
+        quizResultsDialog.show(getSupportFragmentManager(), "results dialog");
     }
 
     private void enableButtons() {
@@ -122,6 +128,7 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
             pressed.setBackgroundResource(R.drawable.green_quiz_background);
         } else {
             pressed.setBackgroundResource(R.drawable.red_quiz_background);
+            mIncorrectCount++;
         }
 
         disableButtons();
@@ -135,5 +142,10 @@ public class QuestionListActivity extends AppCompatActivity implements View.OnCl
                 updateQuestion();
             }
         }, 1500);
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 }

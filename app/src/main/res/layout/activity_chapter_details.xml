@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@android:color/white">
 
             <ImageView
                 android:id="@+id/chapter_image"
@@ -38,6 +39,8 @@
                 android:id="@+id/chapter_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/quiz_button_background"
+                android:textColor="@color/colorPrimary"
                 android:text="@string/chapter_rate" />
 
         </LinearLayout>
