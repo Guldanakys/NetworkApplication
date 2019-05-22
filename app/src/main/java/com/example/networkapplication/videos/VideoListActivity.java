@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.networkapplication.OnItemClickListener;
@@ -21,6 +23,7 @@ public class VideoListActivity extends AppCompatActivity implements VideoView, O
     private VideoAdapter mVideoAdapter;
     private RecyclerView mRecyclerView;
     private List<Video> mVideoList;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +38,30 @@ public class VideoListActivity extends AppCompatActivity implements VideoView, O
     }
 
     private void initUI() {
+        mProgressBar = (ProgressBar) findViewById(R.id.video_list_progress);
         mRecyclerView = (RecyclerView) findViewById(R.id.video_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mVideoList = new ArrayList<>();
         mVideoAdapter = new VideoAdapter(mVideoList, this);
         mVideoAdapter.setItemClickListener(this);
         mRecyclerView.setAdapter(mVideoAdapter);
+        showProgress();
+    }
+
+    private void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showVideoList(List<Video> videoList) {
         mVideoList.addAll(videoList);
         mVideoAdapter.notifyDataSetChanged();
+        hideProgress();
     }
 
     @Override

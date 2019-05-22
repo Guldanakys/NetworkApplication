@@ -12,6 +12,10 @@ import com.example.networkapplication.models.User;
 
 public class ProfileFragment extends Fragment {
 
+    private TextView mUserName;
+    private TextView mEmail;
+    private TextView mFullName;
+
     public ProfileFragment() {
     }
 
@@ -30,6 +34,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initUI(View view) {
+        mUserName = (TextView) view.findViewById(R.id.profile_username);
+        mEmail = (TextView) view.findViewById(R.id.profile_email);
+        mFullName = (TextView) view.findViewById(R.id.profile_full_name);
+
+        User user = new User(1, "Azorahai", "Arya", "Stark", "arya@gmail.com", "", "");
+        mUserName.setText(user.getNickName());
+        mEmail.setText(user.getEmail());
+        mFullName.setText(user.getFirstName() + " " + user.getLastName());
     }
 
 }

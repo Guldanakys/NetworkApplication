@@ -55,12 +55,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                 mUserFirstName.getText().toString(),
                 mUserLastName.getText().toString(),
                 mUserEmail.getText().toString(),
-                "123!@#qweQWE", "123!@#qweQWE");
+                mUserPassword.getText().toString(), mUserPassword.getText().toString());
     }
 
     @Override
     public void registerSuccess() {
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

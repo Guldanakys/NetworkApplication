@@ -18,9 +18,9 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_margin="20dp"
-            android:src="@drawable/iron_man"
+            android:src="@drawable/ic_user"
             app:civ_border_width="2dp"
-            app:civ_border_color="@android:color/white"/>
+            app:civ_border_color="@color/middle_blue"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,20 +29,21 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/profile_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:text="Iskastark"/>
+                android:textColor="@android:color/white" />
 
             <TextView
+                android:id="@+id/profile_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="iska@gmail.com"/>
+                android:textColor="@color/dark_grey" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,6 +57,7 @@
                     android:paddingBottom="10dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:textColor="@color/dark_grey"
                     android:text="Rating"/>
 
                 <TextView
@@ -83,12 +85,13 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/profile_full_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="Iskander Raimbayev"/>
+            android:textColor="@color/dark_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,16 +105,60 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
-                android:text="33%"/>
+                android:text="10%"/>
 
             <ProgressBar
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:progress="33"
+                android:progress="10"
                 android:progressTint="@color/colorPrimary"
                 android:progressBackgroundTint="@color/light_grey"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_university"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/gui_text_background"
+                android:text="KBTU"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_student"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/gui_text_background"
+                android:text="Student"/>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

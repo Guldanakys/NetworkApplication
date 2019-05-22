@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@color/colorPrimary"
+    android:background="@android:color/white"
     tools:context=".login.LoginActivity">
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_marginTop="@dimen/login_margin_top"
         android:textStyle="bold"
         android:layout_marginBottom="@dimen/login_margin_bottom"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/colorPrimary" />
 
     <EditText
         android:id="@+id/user_register_nickname"
@@ -80,6 +80,7 @@
         android:layout_marginTop="@dimen/login_margin_top"
         android:layout_marginStart="@dimen/login_margin_start"
         android:layout_marginEnd="@dimen/login_margin_end"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button"/>
 
 </LinearLayout>

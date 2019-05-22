@@ -159,26 +159,34 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
 
             SimulationDevice simulationDeviceStart = new SimulationDevice(1, "", 1, "", "", "", 0f, 0f);
             SimulationDevice simulationDeviceEnd = new SimulationDevice(2, "", 2, "", "", "", 0f, 0f);
+            SimulationDevice simulationDeviceMiddle = new SimulationDevice(2, "", 2, "", "", "", 0f, 0f);
 
-            for (SimulationDevice simulationDevice : mSimulationDeviceList) {
-                if (commands[0].equals(simulationDevice.getName())) {
-                    simulationDeviceStart = simulationDevice;
+
+            if (mSimulationDeviceList.size() > 2) {
+                addPacket();
+                startPingBetweenThree(mSimulationDeviceList.get(0), mSimulationDeviceList.get(1), mSimulationDeviceList.get(2));
+            } else {
+                for (SimulationDevice simulationDevice : mSimulationDeviceList) {
+                    if (commands[0].equals(simulationDevice.getName())) {
+                        simulationDeviceStart = simulationDevice;
+                    }
+                    if (commands[1].equals(simulationDevice.getIpAddress())) {
+                        simulationDeviceEnd = simulationDevice;
+                    }
                 }
-                if (commands[1].equals(simulationDevice.getIpAddress())) {
-                    simulationDeviceEnd = simulationDevice;
-                }
+                addPacket();
+                startPingBetweenTwo(simulationDeviceStart, simulationDeviceEnd);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSimulationLayout.removeView(mPacketView);
+                    }
+                }, 3000);
             }
-            addPacket();
-            startPing(simulationDeviceStart, simulationDeviceEnd);
 
 
-            /*Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mSimulationLayout.removeView(mPacketView);
-                }
-            }, 1200);*/
+
         }
     };
 
@@ -210,7 +218,7 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
         return true;
     }
 
-    private void startPing(SimulationDevice deviceStart, SimulationDevice deviceEnd) {
+    private void startPingBetweenTwo(SimulationDevice deviceStart, SimulationDevice deviceEnd) {
 
         ObjectAnimator rightAnimator = ObjectAnimator
                 .ofFloat(mPacketView, "x", deviceStart.getXLeft(), deviceEnd.getXLeft())
@@ -226,6 +234,43 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(rightAnimator, downAnimator);
+        animatorSet.start();
+    }
+
+    private void startPingBetweenThree(SimulationDevice deviceStart, SimulationDevice deviceMiddle, SimulationDevice deviceEnd) {
+
+        ObjectAnimator rightAnimatorOne = ObjectAnimator
+                .ofFloat(mPacketView, "x", deviceStart.getXLeft(), deviceMiddle.getXLeft())
+                .setDuration(1000);
+        rightAnimatorOne.setInterpolator(new AccelerateInterpolator());
+        rightAnimatorOne.setRepeatCount(2);
+
+        ObjectAnimator downAnimatorOne = ObjectAnimator
+                .ofFloat(mPacketView, "y", deviceStart.getYTop(), deviceMiddle.getYTop())
+                .setDuration(1000);
+        downAnimatorOne.setInterpolator(new AccelerateInterpolator());
+        downAnimatorOne.setRepeatCount(2);
+
+        ObjectAnimator rightAnimatorTwo = ObjectAnimator
+                .ofFloat(mPacketView, "x", deviceMiddle.getXLeft(), deviceEnd.getXLeft())
+                .setDuration(1000);
+        rightAnimatorOne.setInterpolator(new AccelerateInterpolator());
+        rightAnimatorTwo.setRepeatCount(2);
+
+        ObjectAnimator downAnimatorTwo = ObjectAnimator
+                .ofFloat(mPacketView, "y", deviceMiddle.getYTop(), deviceEnd.getYTop())
+                .setDuration(1000);
+        downAnimatorTwo.setInterpolator(new AccelerateInterpolator());
+        downAnimatorTwo.setRepeatCount(2);
+
+        AnimatorSet animatorSetOne = new AnimatorSet();
+        animatorSetOne.playTogether(rightAnimatorOne, downAnimatorOne);
+
+        AnimatorSet animatorSetTwo = new AnimatorSet();
+        animatorSetTwo.playTogether(rightAnimatorTwo, downAnimatorTwo);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playSequentially(animatorSetOne, animatorSetTwo);
         animatorSet.start();
     }
 }
