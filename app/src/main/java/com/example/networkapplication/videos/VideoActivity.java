@@ -14,11 +14,14 @@ public class VideoActivity extends AppCompatActivity {
 
     private WebView mWebView;
     private ProgressBar mProgressBar;
+    private String mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+
+        mUrl = getIntent().getExtras().getString("video_url");
 
         mProgressBar = (ProgressBar) findViewById(R.id.video_progress_bar);
         mWebView = (WebView) findViewById(R.id.video_web_view);
@@ -40,6 +43,6 @@ public class VideoActivity extends AppCompatActivity {
             }
         });
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.loadUrl("https://www.youtube.com/watch?v=vv4y_uOneC0");
+        mWebView.loadUrl(mUrl);
     }
 }

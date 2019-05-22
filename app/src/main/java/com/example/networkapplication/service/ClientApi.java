@@ -39,4 +39,7 @@ public interface ClientApi {
 
     @GET("/api/users/get-profile/{id}")
     Call<User> getUser(@Path("id") int id);
+
+    @GET("/api/users/get-profile/{id}")
+    Call<User> getUserb(@Path("id") int id);
 }

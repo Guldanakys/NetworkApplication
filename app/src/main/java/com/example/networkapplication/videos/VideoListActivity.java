@@ -72,7 +72,13 @@ public class VideoListActivity extends AppCompatActivity implements VideoView, O
     @Override
     public void onItemClick(int position, int id) {
         Intent intent = new Intent(this, VideoActivity.class);
-        intent.putExtra("videoId", id);
+        String url = "";
+        for (Video video : mVideoList) {
+            if (video.getId() == id) {
+                url = video.getUrl();
+            }
+        }
+        intent.putExtra("video_url", url);
         startActivity(intent);
     }
 

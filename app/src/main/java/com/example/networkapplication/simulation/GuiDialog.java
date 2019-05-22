@@ -6,13 +6,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.networkapplication.R;
 
-public class GuiDialog extends AppCompatDialogFragment {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class GuiDialog extends AppCompatDialogFragment implements TextWatcher {
 
     private EditText mGuiHostName;
     private EditText mGuiIpAddress;
@@ -59,14 +64,23 @@ public class GuiDialog extends AppCompatDialogFragment {
 
         mGuiHostName.setText(getArguments().getString("hostname"));
         mGuiIpAddress.setText(getArguments().getString("ip_address"));
-        mGuiSubnetMask.setText(getArguments().getString("subnet_mask"));
         mGuiGateway.setText(getArguments().getString("gateway"));
+
+        if (getArguments().getString("subnet_mask").equals("")) {
+            mGuiSubnetMask.setText("255.255.255.0");
+        } else {
+            mGuiSubnetMask.setText(getArguments().getString("subnet_mask"));
+        }
 
 
         mGuiHostName.setSelection(mGuiHostName.getText().length());
         mGuiIpAddress.setSelection(mGuiIpAddress.getText().length());
         mGuiSubnetMask.setSelection(mGuiSubnetMask.getText().length());
         mGuiGateway.setSelection(mGuiGateway.getText().length());
+
+        mGuiIpAddress.addTextChangedListener(this);
+        mGuiSubnetMask.addTextChangedListener(this);
+        mGuiGateway.addTextChangedListener(this);
     }
 
     @Override
@@ -78,5 +92,41 @@ public class GuiDialog extends AppCompatDialogFragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement GuiDialogListener");
         }
+    }
+
+    private boolean isValid(String s) {
+        String IP_ADDRESS_PATTERN = "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+        Pattern pattern = Pattern.compile(IP_ADDRESS_PATTERN);
+        Matcher matcher = pattern.matcher(s);
+        return matcher.matches();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String ipAddress = mGuiIpAddress.getText().toString();
+        if (!isValid(ipAddress)) {
+            mGuiIpAddress.setError("Invalid Ip address");
+        }
+
+        String subnetMask = mGuiSubnetMask.getText().toString();
+        if(!isValid(subnetMask)) {
+            mGuiSubnetMask.setError("Invalid Subnet mask");
+        }
+
+        String gateway = mGuiGateway.getText().toString();
+        if (!isValid(gateway)) {
+            mGuiGateway.setError("Invalid Gateway");
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
     }
 }

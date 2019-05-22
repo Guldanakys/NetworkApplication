@@ -3,6 +3,7 @@ package com.example.networkapplication.simulation;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import com.example.networkapplication.models.StandardDevice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SimulationActivity extends AppCompatActivity implements OnItemClickListener, GuiDialogListener {
 
@@ -164,7 +167,7 @@ public class SimulationActivity extends AppCompatActivity implements OnItemClick
 
             if (mSimulationDeviceList.size() > 2) {
                 addPacket();
-                startPingBetweenThree(mSimulationDeviceList.get(0), mSimulationDeviceList.get(1), mSimulationDeviceList.get(2));
+                startPingBetweenThree(mSimulationDeviceList.get(0), mSimulationDeviceList.get(2), mSimulationDeviceList.get(1));
             } else {
                 for (SimulationDevice simulationDevice : mSimulationDeviceList) {
                     if (commands[0].equals(simulationDevice.getName())) {
